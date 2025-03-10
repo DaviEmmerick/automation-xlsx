@@ -1,8 +1,6 @@
 import pandas as pd
 from openpyxl import load_workbook
 from openpyxl.styles import PatternFill
-import schedule
-import time
 
 def weekly_data_processing():
     try:
@@ -64,10 +62,3 @@ def weekly_data_processing():
     
     except Exception as e:
         print(f"Ocorreu um erro: {e}")
-
-
-schedule.every().monday.at("10:00").do(weekly_data_processing)
-
-while True:
-    schedule.run_pending()
-    time.sleep(1)

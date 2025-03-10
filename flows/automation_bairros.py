@@ -1,7 +1,5 @@
 from openpyxl import load_workbook
 from copy import copy
-import schedule
-import time
 
 def create_sheet(district, neighborhoods_file, header_style):
     if district not in neighborhoods_file.sheetnames:
@@ -16,7 +14,6 @@ def create_sheet(district, neighborhoods_file, header_style):
         new_sheet["B1"]._style = header_style
         new_sheet["C1"]._style = header_style
 
-
 def transfer_data_from_sheet(source_sheet, destination_sheet, source_row):
     destination_row = destination_sheet.max_row + 1
     for column in range(1, 4):
@@ -25,7 +22,6 @@ def transfer_data_from_sheet(source_sheet, destination_sheet, source_row):
 
         destination_cell.value = source_cell.value
         destination_cell._style = copy(source_cell._style)
-
 
 def process_neighborhoods_data(file_path: str):
     try:
@@ -51,12 +47,3 @@ def process_neighborhoods_data(file_path: str):
 
     neighborhoods_file.save(file_path)
     print(f"Arquivo {file_path} atualizado com sucesso!")
-
-
-schedule.every().monday.at("10:00").do(process_neighborhoods_data)
-schedule.every().monday.at("10:00").do(create_sheet)
-schedule.every().monday.at("10:00").do(transfer_data_from_sheet)
-
-while True:
-    schedule.run_pending()
-    time.sleep(1)
